@@ -6,1193 +6,400 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
 
-  const [user, setUser] = useState({loggedIn: null})
-  const [name, setName] = useState('')
-  const [transactionStatus, setTransactionStatus] = useState(null) // NEW
-  const [packsPage, setPacksPage] = useState(false);
-  const [userFlovatars, setUserFlovatars] = useState([
-    {
-      "id": "6058",
-      "name": "",
-      "metadata": {
-        "mint": "6058",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H288FxE252N448M429C87",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "429",
-          "clothing": "87",
-          "nose": "448",
-          "body": "38",
-          "facialHair": "0",
-          "eyes": "252",
-          "hair": "288"
-        },
-        "rareCount": "0",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": "228",
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5563",
-      "name": "",
-      "metadata": {
-        "mint": "5563",
-        "series": "1",
-        "svg": "",
-        "combination": "B64H383F281E262N454M437C185",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "facialHair": "281",
-          "hair": "383",
-          "clothing": "185",
-          "mouth": "437",
-          "nose": "454",
-          "body": "64",
-          "eyes": "262"
-        },
-        "rareCount": "3",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5183",
-      "name": "",
-      "metadata": {
-        "mint": "5183",
-        "series": "1",
-        "svg": "",
-        "combination": "B35H290FxE254N456M424C114",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "290",
-          "body": "35",
-          "clothing": "114",
-          "nose": "456",
-          "facialHair": "0",
-          "mouth": "424",
-          "eyes": "254"
-        },
-        "rareCount": "2",
-        "epicCount": "3",
-        "legendaryCount": "1"
-      },
-      "accessoryId": "21",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5502",
-      "name": "",
-      "metadata": {
-        "mint": "5502",
-        "series": "1",
-        "svg": "",
-        "combination": "B71H295F281E263N448M436C190",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "facialHair": "281",
-          "eyes": "263",
-          "body": "71",
-          "nose": "448",
-          "hair": "295",
-          "mouth": "436",
-          "clothing": "190"
-        },
-        "rareCount": "3",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "6145",
-      "name": "",
-      "metadata": {
-        "mint": "6145",
-        "series": "1",
-        "svg": "",
-        "combination": "B71H301FxE266N448M437C149",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "facialHair": "0",
-          "hair": "301",
-          "body": "71",
-          "mouth": "437",
-          "nose": "448",
-          "clothing": "149",
-          "eyes": "266"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "3",
-      "name": "",
-      "metadata": {
-        "mint": "3",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H289FxE266N454M437C136",
-        "creatorAddress": "0x67b5ddcc022c6dc5",
-        "components": {
-          "eyes": "266",
-          "nose": "454",
-          "hair": "289",
-          "mouth": "437",
-          "clothing": "136",
-          "facialHair": "0",
-          "body": "50"
-        },
-        "rareCount": "0",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": "581",
-      "eyeglassesId": null,
-      "backgroundId": "488",
-      "bio": {}
-    },
-    {
-      "id": "1745",
-      "name": "",
-      "metadata": {
-        "mint": "1745",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H301F281E266N455M437C135",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "301",
-          "mouth": "437",
-          "clothing": "135",
-          "eyes": "266",
-          "body": "38",
-          "facialHair": "281",
-          "nose": "455"
-        },
-        "rareCount": "2",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5832",
-      "name": "",
-      "metadata": {
-        "mint": "5832",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H379F285E258N455M437C175",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "eyes": "258",
-          "clothing": "175",
-          "nose": "455",
-          "body": "50",
-          "mouth": "437",
-          "facialHair": "285",
-          "hair": "379"
-        },
-        "rareCount": "1",
-        "epicCount": "2",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "6071",
-      "name": "",
-      "metadata": {
-        "mint": "6071",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H313F281E252N448M435C120",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "313",
-          "eyes": "252",
-          "clothing": "120",
-          "nose": "448",
-          "mouth": "435",
-          "facialHair": "281",
-          "body": "38"
-        },
-        "rareCount": "3",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "547",
-      "hatId": "476",
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5119",
-      "name": "",
-      "metadata": {
-        "mint": "5119",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H313FxE257N448M433C90",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "433",
-          "hair": "313",
-          "body": "38",
-          "nose": "448",
-          "eyes": "257",
-          "facialHair": "0",
-          "clothing": "90"
-        },
-        "rareCount": "2",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5634",
-      "name": "",
-      "metadata": {
-        "mint": "5634",
-        "series": "1",
-        "svg": "",
-        "combination": "B49H321FxE251N454M436C150",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "clothing": "150",
-          "mouth": "436",
-          "nose": "454",
-          "eyes": "251",
-          "facialHair": "0",
-          "body": "49",
-          "hair": "321"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": "220",
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5058",
-      "name": "",
-      "metadata": {
-        "mint": "5058",
-        "series": "1",
-        "svg": "",
-        "combination": "B39H327FxE258N454M425C173",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "425",
-          "hair": "327",
-          "body": "39",
-          "nose": "454",
-          "eyes": "258",
-          "facialHair": "0",
-          "clothing": "173"
-        },
-        "rareCount": "1",
-        "epicCount": "2",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "6",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5549",
-      "name": "",
-      "metadata": {
-        "mint": "5549",
-        "series": "1",
-        "svg": "",
-        "combination": "B52H320FxE251N454M436C192",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "436",
-          "eyes": "251",
-          "hair": "320",
-          "body": "52",
-          "clothing": "192",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "0",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5440",
-      "name": "",
-      "metadata": {
-        "mint": "5440",
-        "series": "1",
-        "svg": "",
-        "combination": "B67H295FxE262N454M436C95",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "295",
-          "mouth": "436",
-          "clothing": "95",
-          "eyes": "262",
-          "body": "67",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5550",
-      "name": "",
-      "metadata": {
-        "mint": "5550",
-        "series": "1",
-        "svg": "",
-        "combination": "B46H306FxE251N454M436C149",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "436",
-          "eyes": "251",
-          "hair": "306",
-          "body": "46",
-          "clothing": "149",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "0",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5490",
-      "name": "",
-      "metadata": {
-        "mint": "5490",
-        "series": "1",
-        "svg": "",
-        "combination": "B45H327FxE244N454M439C172",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "327",
-          "mouth": "439",
-          "eyes": "244",
-          "clothing": "172",
-          "body": "45",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "1",
-        "epicCount": "3",
-        "legendaryCount": "1"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": "233",
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5118",
-      "name": "",
-      "metadata": {
-        "mint": "5118",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H289FxE258N448M429C90",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "448",
-          "clothing": "90",
-          "body": "38",
-          "facialHair": "0",
-          "mouth": "429",
-          "eyes": "258",
-          "hair": "289"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "510",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5604",
-      "name": "",
-      "metadata": {
-        "mint": "5604",
-        "series": "1",
-        "svg": "",
-        "combination": "B66H344FxE238N455M434C170",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "455",
-          "mouth": "434",
-          "facialHair": "0",
-          "body": "66",
-          "clothing": "170",
-          "hair": "344",
-          "eyes": "238"
-        },
-        "rareCount": "2",
-        "epicCount": "1",
-        "legendaryCount": "1"
-      },
-      "accessoryId": "26",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5838",
-      "name": "",
-      "metadata": {
-        "mint": "5838",
-        "series": "1",
-        "svg": "",
-        "combination": "B54H288FxE251N454M436C203",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "clothing": "203",
-          "mouth": "436",
-          "eyes": "251",
-          "nose": "454",
-          "body": "54",
-          "facialHair": "0",
-          "hair": "288"
-        },
-        "rareCount": "0",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "4587",
-      "name": "",
-      "metadata": {
-        "mint": "4587",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H323FxE266N455M434C137",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "facialHair": "0",
-          "mouth": "434",
-          "hair": "323",
-          "eyes": "266",
-          "nose": "455",
-          "clothing": "137",
-          "body": "50"
-        },
-        "rareCount": "2",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "460",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1747",
-      "name": "",
-      "metadata": {
-        "mint": "1747",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H316FxE265N455M434C136",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "316",
-          "facialHair": "0",
-          "clothing": "136",
-          "mouth": "434",
-          "body": "53",
-          "eyes": "265",
-          "nose": "455"
-        },
-        "rareCount": "0",
-        "epicCount": "2",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5576",
-      "name": "",
-      "metadata": {
-        "mint": "5576",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H298FxE262N454M434C194",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "434",
-          "eyes": "262",
-          "hair": "298",
-          "body": "50",
-          "clothing": "194",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "0",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1",
-      "name": "",
-      "metadata": {
-        "mint": "1",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H371FxE262N454M442C145",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "facialHair": "0",
-          "body": "53",
-          "mouth": "442",
-          "clothing": "145",
-          "hair": "371",
-          "eyes": "262",
-          "nose": "454"
-        },
-        "rareCount": "0",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1640",
-      "name": "",
-      "metadata": {
-        "mint": "1640",
-        "series": "1",
-        "svg": "",
-        "combination": "B40H288FxE263N455M440C205",
-        "creatorAddress": "0x5356af064621bb2a",
-        "components": {
-          "nose": "455",
-          "clothing": "205",
-          "mouth": "440",
-          "body": "40",
-          "hair": "288",
-          "facialHair": "0",
-          "eyes": "263"
-        },
-        "rareCount": "2",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": "499",
-      "bio": {}
-    },
-    {
-      "id": "1525",
-      "name": "",
-      "metadata": {
-        "mint": "1525",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H307FxE263N455M444C173",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "455",
-          "clothing": "173",
-          "mouth": "444",
-          "body": "53",
-          "hair": "307",
-          "facialHair": "0",
-          "eyes": "263"
-        },
-        "rareCount": "1",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "6062",
-      "name": "",
-      "metadata": {
-        "mint": "6062",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H324FxE251N454M436C161",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "eyes": "251",
-          "mouth": "436",
-          "body": "50",
-          "clothing": "161",
-          "hair": "324",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "2",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "768",
-      "hatId": null,
-      "eyeglassesId": "226",
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5057",
-      "name": "",
-      "metadata": {
-        "mint": "5057",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H318FxE266N454M440C135",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "318",
-          "mouth": "440",
-          "clothing": "135",
-          "eyes": "266",
-          "body": "53",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "6097",
-      "name": "",
-      "metadata": {
-        "mint": "6097",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H301FxE252N455M440C159",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "eyes": "252",
-          "mouth": "440",
-          "clothing": "159",
-          "body": "53",
-          "hair": "301",
-          "facialHair": "0",
-          "nose": "455"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "768",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1291",
-      "name": "",
-      "metadata": {
-        "mint": "1291",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H308F282E252N455M444C144",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "455",
-          "clothing": "144",
-          "body": "53",
-          "facialHair": "282",
-          "mouth": "444",
-          "eyes": "252",
-          "hair": "308"
-        },
-        "rareCount": "2",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "536",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "6066",
-      "name": "",
-      "metadata": {
-        "mint": "6066",
-        "series": "1",
-        "svg": "",
-        "combination": "B34H330FxE238N454M425C121",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "body": "34",
-          "eyes": "238",
-          "hair": "330",
-          "nose": "454",
-          "facialHair": "0",
-          "clothing": "121",
-          "mouth": "425"
-        },
-        "rareCount": "1",
-        "epicCount": "3",
-        "legendaryCount": "1"
-      },
-      "accessoryId": "22",
-      "hatId": "408",
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "4219",
-      "name": "",
-      "metadata": {
-        "mint": "4219",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H318FxE266N454M434C170",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "hair": "318",
-          "mouth": "434",
-          "clothing": "170",
-          "eyes": "266",
-          "body": "53",
-          "facialHair": "0",
-          "nose": "454"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": "226",
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1741",
-      "name": "",
-      "metadata": {
-        "mint": "1741",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H368FxE265N448M430C134",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "448",
-          "clothing": "134",
-          "mouth": "430",
-          "body": "53",
-          "hair": "368",
-          "facialHair": "0",
-          "eyes": "265"
-        },
-        "rareCount": "1",
-        "epicCount": "2",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1750",
-      "name": "",
-      "metadata": {
-        "mint": "1750",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H317FxE257N455M433C133",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "455",
-          "clothing": "133",
-          "mouth": "433",
-          "body": "53",
-          "hair": "317",
-          "facialHair": "0",
-          "eyes": "257"
-        },
-        "rareCount": "2",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "4964",
-      "name": "",
-      "metadata": {
-        "mint": "4964",
-        "series": "1",
-        "svg": "",
-        "combination": "B58H303F284E261N454M436C205",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "436",
-          "hair": "303",
-          "nose": "454",
-          "clothing": "205",
-          "body": "58",
-          "facialHair": "284",
-          "eyes": "261"
-        },
-        "rareCount": "3",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": null,
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "1614",
-      "name": "",
-      "metadata": {
-        "mint": "1614",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H323F279E252N455M446C92",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "446",
-          "facialHair": "279",
-          "eyes": "252",
-          "nose": "455",
-          "hair": "323",
-          "body": "53",
-          "clothing": "92"
-        },
-        "rareCount": "4",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "23",
-      "hatId": "397",
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "3943",
-      "name": "",
-      "metadata": {
-        "mint": "3943",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H323F276E258N450M440C173",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "nose": "450",
-          "clothing": "173",
-          "body": "38",
-          "facialHair": "276",
-          "mouth": "440",
-          "eyes": "258",
-          "hair": "323"
-        },
-        "rareCount": "2",
-        "epicCount": "1",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "7",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "4589",
-      "name": "",
-      "metadata": {
-        "mint": "4589",
-        "series": "1",
-        "svg": "",
-        "combination": "B53H292FxE252N448M435C205",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "mouth": "435",
-          "nose": "448",
-          "hair": "292",
-          "body": "53",
-          "facialHair": "0",
-          "eyes": "252",
-          "clothing": "205"
-        },
-        "rareCount": "3",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "561",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "5429",
-      "name": "",
-      "metadata": {
-        "mint": "5429",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H291F267E248N453M437C205",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "clothing": "205",
-          "facialHair": "267",
-          "body": "50",
-          "hair": "291",
-          "nose": "453",
-          "eyes": "248",
-          "mouth": "437"
-        },
-        "rareCount": "5",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "521",
-      "hatId": "419",
-      "eyeglassesId": null,
-      "backgroundId": "568",
-      "bio": {}
-    },
-    {
-      "id": "5836",
-      "name": "",
-      "metadata": {
-        "mint": "5836",
-        "series": "1",
-        "svg": "",
-        "combination": "B50H307F281E263N448M437C90",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "eyes": "263",
-          "clothing": "90",
-          "nose": "448",
-          "body": "50",
-          "mouth": "437",
-          "facialHair": "281",
-          "hair": "307"
-        },
-        "rareCount": "3",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "531",
-      "hatId": "582",
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "6061",
-      "name": "",
-      "metadata": {
-        "mint": "6061",
-        "series": "1",
-        "svg": "",
-        "combination": "B38H313FxE266N456M434C158",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "clothing": "158",
-          "facialHair": "0",
-          "eyes": "266",
-          "hair": "313",
-          "body": "38",
-          "nose": "456",
-          "mouth": "434"
-        },
-        "rareCount": "2",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "768",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": null,
-      "bio": {}
-    },
-    {
-      "id": "4963",
-      "name": "",
-      "metadata": {
-        "mint": "4963",
-        "series": "1",
-        "svg": "",
-        "combination": "B46H289FxE248N454M442C209",
-        "creatorAddress": "0x2a0eccae942667be",
-        "components": {
-          "eyes": "248",
-          "facialHair": "0",
-          "nose": "454",
-          "body": "46",
-          "mouth": "442",
-          "hair": "289",
-          "clothing": "209"
-        },
-        "rareCount": "1",
-        "epicCount": "0",
-        "legendaryCount": "0"
-      },
-      "accessoryId": "520",
-      "hatId": null,
-      "eyeglassesId": null,
-      "backgroundId": "572",
-      "bio": {}
-    }
-  ]);
-
+  const [user, setUser] = useState({loggedIn: null});
+  const [currentPage, setCurrentPage] = useState(0);
   const [nftsPerPack, setNftsPerPack] = useState(0);
-
-
-  // const [userFlovatars, setUserFlovatars] = useState([]);
-
-  const [chosenNfts, setChosenNfts] = useState([]);
+  const [userNfts, setUserNfts] = useState([]);  const [chosenNfts, setChosenNfts] = useState([]);
+  const [createdPacks, setCreatedPacks] = useState([]);
+  const [createdMarket, setCreatedMarket] = useState([]);
+  const [priceToSell, setPriceToSell] = useState(0);
+  const [selectedPack, setSelectedPack] = useState();
 
   useEffect(() => fcl.currentUser.subscribe(setUser), [])
 
-
-  const getFlovatars = async () => {
-    const flovatars = await fcl.query({ 
+  const checkNFTs = async () => {
+    const transactionId = await fcl.query({
       cadence: `
-          import Flovatar from 0x9392a4a7c3f49a0b
+      import NonFungibleToken from 0x631e88ae7f1d7c20
+      import ExampleNFT from 0x9edbe746c3cb021f
+      import MetadataViews from 0x631e88ae7f1d7c20
 
-          pub fun main(address:Address) : [Flovatar.FlovatarData] {
-            return Flovatar.getFlovatars(address: address)
+      pub struct NFTView {
+        pub let id: UInt64
+        pub let uuid: UInt64
+        pub let name: String
+        pub let description: String
+        pub let thumbnail: String
+        pub let royalties: [MetadataViews.Royalty]
+        pub let externalURL: String
+        pub let collectionPublicPath: PublicPath
+        pub let collectionStoragePath: StoragePath
+        pub let collectionProviderPath: PrivatePath
+        pub let collectionPublic: String
+        pub let collectionPublicLinkedType: String
+        pub let collectionProviderLinkedType: String
+        pub let collectionName: String
+        pub let collectionDescription: String
+        pub let collectionExternalURL: String
+        pub let collectionSquareImage: String
+        pub let collectionBannerImage: String
+        pub let collectionSocials: {String: String}
+        pub let traits: MetadataViews.Traits
+
+        init(
+            id: UInt64,
+            uuid: UInt64,
+            name: String,
+            description: String,
+            thumbnail: String,
+            royalties: [MetadataViews.Royalty],
+            externalURL: String,
+            collectionPublicPath: PublicPath,
+            collectionStoragePath: StoragePath,
+            collectionProviderPath: PrivatePath,
+            collectionPublic: String,
+            collectionPublicLinkedType: String,
+            collectionProviderLinkedType: String,
+            collectionName: String,
+            collectionDescription: String,
+            collectionExternalURL: String,
+            collectionSquareImage: String,
+            collectionBannerImage: String,
+            collectionSocials: {String: String},
+            traits: MetadataViews.Traits
+        ) {
+            self.id = id
+            self.uuid = uuid
+            self.name = name
+            self.description = description
+            self.thumbnail = thumbnail
+            self.royalties = royalties
+            self.externalURL = externalURL
+            self.collectionPublicPath = collectionPublicPath
+            self.collectionStoragePath = collectionStoragePath
+            self.collectionProviderPath = collectionProviderPath
+            self.collectionPublic = collectionPublic
+            self.collectionPublicLinkedType = collectionPublicLinkedType
+            self.collectionProviderLinkedType = collectionProviderLinkedType
+            self.collectionName = collectionName
+            self.collectionDescription = collectionDescription
+            self.collectionExternalURL = collectionExternalURL
+            self.collectionSquareImage = collectionSquareImage
+            self.collectionBannerImage = collectionBannerImage
+            self.collectionSocials = collectionSocials
+            self.traits = traits
+        }
+    }
+
+      pub fun main(address: Address): [NFTView] {
+          let account = getAccount(address)
+
+          let collectionRef = account
+              .getCapability(ExampleNFT.CollectionPublicPath)
+              .borrow<&{NonFungibleToken.CollectionPublic}>()
+              ?? panic("Could not borrow capability from public collection")
+          
+          let x : [NFTView] = []
+
+          for element in collectionRef.getIDs() {
+            let collectionLoop = account
+                .getCapability(ExampleNFT.CollectionPublicPath)
+                .borrow<&{MetadataViews.ResolverCollection}>()
+                ?? panic("Could not borrow a reference to the collection")
+  
+            let viewResolver = collectionLoop.borrowViewResolver(id: element)!
+  
+            let nftView = MetadataViews.getNFTView(id: element, viewResolver : viewResolver)
+  
+            let collectionSocials: {String: String} = {}
+            for key in nftView.collectionDisplay!.socials.keys {
+                collectionSocials[key] = nftView.collectionDisplay!.socials[key]!.url
+            }
+
+            x.append(NFTView(
+                id: nftView.id,
+                uuid: nftView.uuid,
+                name: nftView.display!.name,
+                description: nftView.display!.description,
+                thumbnail: nftView.display!.thumbnail.uri(),
+                royalties: nftView.royalties!.getRoyalties(),
+                externalURL: nftView.externalURL!.url,
+                collectionPublicPath: nftView.collectionData!.publicPath,
+                collectionStoragePath: nftView.collectionData!.storagePath,
+                collectionProviderPath: nftView.collectionData!.providerPath,
+                collectionPublic: nftView.collectionData!.publicCollection.identifier,
+                collectionPublicLinkedType: nftView.collectionData!.publicLinkedType.identifier,
+                collectionProviderLinkedType: nftView.collectionData!.providerLinkedType.identifier,
+                collectionName: nftView.collectionDisplay!.name,
+                collectionDescription: nftView.collectionDisplay!.description,
+                collectionExternalURL: nftView.collectionDisplay!.externalURL.url,
+                collectionSquareImage: nftView.collectionDisplay!.squareImage.file.uri(),
+                collectionBannerImage: nftView.collectionDisplay!.bannerImage.file.uri(),
+                collectionSocials: collectionSocials,
+                traits: nftView.traits!,
+            ))
           }
+          return x
+      }
       `,
       args: (arg, t) => [arg(user.addr, t.Address)]
+    })
+
+    setUserNfts(transactionId);
+    setChosenNfts([]);
+
+  }
+
+  const updateClickList = (id) => {
+    const userNftsNew = [...chosenNfts];
+    if (userNftsNew.includes(id)) {
+      userNftsNew.splice(chosenNfts.indexOf(id), 1);
+    } else {
+      userNftsNew.push(id);
+    }
+    setChosenNfts(userNftsNew);
+    console.log(id);
+  }
+
+  const selectAllClickList = () => {
+    const userNftsNew = [];
+    userNfts.forEach(element => {
+      userNftsNew.push(element.id);
     });
+    setChosenNfts(userNftsNew);
+  }
 
-    setUserFlovatars(flovatars);
-    console.log({ flovatars });
-}
+  const deselectAllClickList = () => {
+    setChosenNfts([]);
+  }
 
+  const setupAccount = async () => {
+    const accSetTransId = await fcl.mutate({
+      cadence: `
+
+      import NonFungibleToken from 0x631e88ae7f1d7c20
+      import ExampleNFT from 0x9edbe746c3cb021f
+      import MetadataViews from 0x631e88ae7f1d7c20
+
+      transaction {
+
+          prepare(signer: AuthAccount) {
+              // Return early if the account already has a collection
+              if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+                  return
+              }
+      
+              // Create a new empty collection
+              let collection <- ExampleNFT.createEmptyCollection()
+      
+              // save it to the account
+              signer.save(<-collection, to: ExampleNFT.CollectionStoragePath)
+      
+              // create a public capability for the collection
+              signer.link<&{NonFungibleToken.CollectionPublic, ExampleNFT.ExampleNFTCollectionPublic, MetadataViews.ResolverCollection}>(
+                  ExampleNFT.CollectionPublicPath,
+                  target: ExampleNFT.CollectionStoragePath
+              )
+            
+          }
+      }`,
+      payer: fcl.currentUser,
+      proposer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 50,
+
+    })
+
+    const accTrans = await fcl.tx(accSetTransId).onceSealed();
+    console.log(accTrans);
+  }
+
+  const setupPacks = async () => {
+    const transId = await fcl.mutate({
+      cadence: `
+      import StormPack from 0x9edbe746c3cb021f
+      import FungibleToken from 0x9a0766d93b6608b7
+      import FlowToken from 0x7e60df042a9c0868
+
+      transaction() {
+          prepare(account: AuthAccount) {
+            if(account.getCapability<&{StormPack.CollectionPublic}>(StormPack.CollectionPublicPath) == nil) {
+              account.save<@StormPack.Collection>(<- StormPack.createEmptyCollection(), to: /storage/StormPackCollection)
+              account.link<&{StormPack.CollectionPublic}>(StormPack.CollectionPublicPath, target: /storage/StormPackCollection)
+            }
+          }
+
+      }
+      `,
+      payer: fcl.currentUser,
+      proposer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 50,
+    })
+
+    const accTrans = await fcl.tx(transId).onceSealed();
+    console.log(accTrans);
+  }
+
+  const createPack = async () => {
+    const accSetTransId = await fcl.mutate({
+      cadence: `
+
+      import NonFungibleToken from 0x631e88ae7f1d7c20
+      import ExampleNFT from 0x9edbe746c3cb021f
+      import MetadataViews from 0x631e88ae7f1d7c20
+
+      transaction {
+
+          prepare(signer: AuthAccount) {
+              // Return early if the account already has a collection
+              if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+                  return
+              }
+      
+              // Create a new empty collection
+              let collection <- ExampleNFT.createEmptyCollection()
+      
+              // save it to the account
+              signer.save(<-collection, to: ExampleNFT.CollectionStoragePath)
+            
+          }
+      }`,
+      payer: fcl.currentUser,
+      proposer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 50,
+
+    })
+
+    const accTrans = await fcl.tx(accSetTransId).onceSealed();
+    console.log(accTrans);
+
+    // let nftsPerPackActual = Math.floor(chosenNfts.length/nftsPerPack);
+    
+    setCreatedPacks([
+      [{
+        id: 0,
+      },
+      {
+        id: 2
+      }],
+      [{
+        id: 1,
+      },
+      {
+        id: 3
+      }]
+    ])
+    setUserNfts([]);
+    setChosenNfts([]);
+
+
+  }
+
+  const putOnMarket = async () => {
+
+    const accSetTransId = await fcl.mutate({
+      cadence: `
+
+      import NonFungibleToken from 0x631e88ae7f1d7c20
+      import ExampleNFT from 0x9edbe746c3cb021f
+      import MetadataViews from 0x631e88ae7f1d7c20
+
+      transaction {
+
+          prepare(signer: AuthAccount) {
+              // Return early if the account already has a collection
+              if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+                  return
+              }
+      
+              // Create a new empty collection
+              let collection <- ExampleNFT.createEmptyCollection()
+      
+              // save it to the account
+              signer.save(<-collection, to: ExampleNFT.CollectionStoragePath)
+            
+          }
+      }`,
+      payer: fcl.currentUser,
+      proposer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 50,
+
+    })
+
+    const accTrans = await fcl.tx(accSetTransId).onceSealed();
+    console.log(accTrans);
+
+    setCreatedMarket([{
+      id: selectedPack,
+      nftsIn: createdPacks[selectedPack],
+      price: priceToSell
+    }])
+
+    setSelectedPack(null);
+    setPriceToSell(0);
+    let netarr = [...createdPacks];
+    netarr.splice(selectedPack, 1);
+    setCreatedPacks(netarr);
+
+  }
+
+  const openPack = async () => {
+    const accSetTransId = await fcl.mutate({
+      cadence: `
+
+      import NonFungibleToken from 0x631e88ae7f1d7c20
+      import ExampleNFT from 0x9edbe746c3cb021f
+      import MetadataViews from 0x631e88ae7f1d7c20
+
+      transaction {
+
+          prepare(signer: AuthAccount) {
+              // Return early if the account already has a collection
+              if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+                  return
+              }
+      
+              // Create a new empty collection
+              let collection <- ExampleNFT.createEmptyCollection()
+      
+              // save it to the account
+              signer.save(<-collection, to: ExampleNFT.CollectionStoragePath)
+            
+          }
+      }`,
+      payer: fcl.currentUser,
+      proposer: fcl.currentUser,
+      authorizations: [fcl.currentUser],
+      limit: 50,
+
+    })
+
+    const accTrans = await fcl.tx(accSetTransId).onceSealed();
+    console.log(accTrans);
+
+    setUserNfts(createdPacks[selectedPack]);
+    setSelectedPack(null);
+    setPriceToSell(0);
+    let netarr = [...createdPacks];
+    netarr.splice(selectedPack, 1);
+    setCreatedPacks(netarr);
+  }
+
+  const deselectAllPacks = () => {
+    setSelectedPack(null);
+  }
 
   const AuthedState = () => {
     return (
       <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px"}}>
         {/* <div>Address: {user?.addr ?? "No Address"}</div> */}
-        <div onClick={getFlovatars} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Get Flovatars</div> {/* NEW */}
+        {/* <div onClick={setupAccount} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Setup Accounts</div>
+        <div onClick={setupPacks} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Setup Packs</div>
+        <div onClick={checkPackNum} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Check Packs</div> */}
+        <div onClick={checkNFTs} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Load NFTs</div> {/* NEW */}
         <div onClick={fcl.unauthenticate} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Log Out</div>
       </div>
     )
@@ -1213,12 +420,12 @@ export default function Home() {
 
         <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "30px"}}>
           <div style={{display: "flex", justifyContent: "left", alignItems: "center"}}>
-            <p style={{fontSize: 30, fontFamily: "InterBold", paddingRight: "10px", margin: "0px"}}>My Flovatars</p>
+            <p style={{fontSize: 30, fontFamily: "InterBold", paddingRight: "10px", margin: "0px"}}>My NFTs</p>
             {chosenNfts.length == 0 ? <p style={{margin: "0px", padding: "0px"}}>(Select NFTs to Create Packs)</p>
-             : <div onClick={() => {}} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>
+             : <div onClick={createPack} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>
               Create Packs ({chosenNfts.length} Selected, 
               <input style={{width: "50px"}} type="number" name="someid" value={nftsPerPack} onChange={e => setNftsPerPack(e.target.value > chosenNfts.length ? chosenNfts.length : e.target.value)
-             }/> per pack)</div>}
+             }/> packs)</div>}
           </div>
           <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", width:"20%"}}>
             <div onClick={selectAllClickList} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Select All</div>
@@ -1227,49 +434,86 @@ export default function Home() {
          
         </div>
         <div style={{gap: "20px", width: "100%", placeItems: "center", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr"}}>
-          {userFlovatars.map((el, ind) => (
+          {userNfts.map((el, ind) => (
             <div key={el.id} style={{backgroundColor: chosenNfts.includes(el.id) ? "#90EE90" : "#ffffff", padding: "10px", width: "100%", display: "flex", borderRadius: "5%",
               justifyContent: "center", alignContent: "center", flexDirection: "column"}} className={styles.nftBlock} onClick={() => {
                 updateClickList(el.id);
               }}>
-              <img src={"https://flovatar.com/api/image/" + el.id} style={{backgroundColor: "#f8f8f8", width: "100%", borderRadius: "5%"}}></img>
+              <img src={"https://flovatar.com/api/image/" + el.id+1} style={{backgroundColor: "#f8f8f8", width: "100%", borderRadius: "5%"}}></img>
               <p style={{width: "100%", display: "flex", 
             justifyContent: "right", alignContent: "center", paddingTop: "10px", paddingRight: "10px", fontFamily: "InterBold"}}>
-              {el.metadata.rareCount}R {el.metadata.epicCount}E {el.metadata.legendaryCount}L
+              {el.id}
             </p>
             </div>
             
           ))}
           </div>
         </div>
+
     )
   }
 
   const PacksPage = () => {
+    return (
+      <div style={{display: "flex", width: "100%", justifyContent: "center", alignContent: "center", paddingTop: "10px", flexDirection: "column"}}>
 
+          <div style={{display: "flex", justifyContent: "left", alignItems: "center", paddingBottom: "30px"}}>
+            <p style={{fontSize: 30, fontFamily: "InterBold", paddingRight: "10px", margin: "0px"}}>My Packs</p>
+            {selectedPack == null ? <p style={{margin: "0px", padding: "0px"}}>(Select a Pack to Sell)</p>
+             : <div onClick={putOnMarket} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center", marginRight: "10px"}} className={styles.hoverCss}>
+              Put on Market @ Price:
+              <input style={{width: "50px"}} type="number" name="someid" value={priceToSell} onChange={e => setPriceToSell(e.target.value)
+             }/></div>}
+             {selectedPack != null && <div onClick={openPack} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center", marginRight: "10px"}} className={styles.hoverCss}>
+              Open Pack</div>}
+              {selectedPack != null && <div onClick={deselectAllPacks} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>
+              Deselect All</div>}
+          </div>
+        <div style={{gap: "20px", width: "100%", placeItems: "center", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr"}}>
+          {createdPacks.map((el, ind) => (
+            <div key={ind} style={{backgroundColor: selectedPack == ind ? "#90EE90" : "#ffffff", padding: "10px", width: "100%", display: "flex", borderRadius: "5%",
+              justifyContent: "center", alignContent: "center", flexDirection: "column"}} className={styles.nftBlock} onClick={() => {
+                setSelectedPack(ind);
+              }}>
+              <img src={"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOAAAADgCAMAAAAt85rTAAAAe1BMVEXv6hP////u6QDw6x/w6yfw7Dz///r39aL39J/8+9n49q7w7Dj7+tX///v6+cv597n8++D+/fH9/ez285P5+MH49rX08YH39abz8G/x7EH285Hx7U7z72Pw6y/9/Ob49q/08Hfy7l718on7+c708HT08YD5977x7Uzy7l9B8QtCAAAF7ElEQVR4nO2da3faMAxAQTzLs7Q8C4zSlnX//xcOGNsi20lkW4YoR/djD25168QvbLmxb9WbRrtRc1RQOiooHRWUjgpKRwWlo4LSUUHpqKB0VFA6KigdFZSOCkpHBaWjgtJRQemooHRUUDoqyARkudPfvHIPwYvT5ut1MJ1MJvPF6mPXvqNlcsGzyvrw3MSMR6vjnRzTCp4llqNmDvPdPRRTCgIMp3l2V7q9RnLFhIKw+SzUu7JoJVZMJgitebnehVXaBzWRIMAbTe/yoK5TGqYRhLbZbhYyT1iJSQRh7aN3ZrZJZphCEHqefme+UhkmEARi64J5TWTILwi5PXuz2+3mG67SGLILuv1m0+X2NtIernvuf0EaQ25BmNiRjwebzOj6avnl+Fiap5RZEFZ25S0dw+rzT+xPNlN0iLyC8GUF/ZbXxwEcrA8P+Q1ZBaFtRjwqGk3D8IdZ21UXNAN+Kw4YrB5zym7IKQh9I9xtabiwM4ocuQ0ZBc0HdEx5o6AzTvuQcgripn+8J8UKe2zYZzbkE4QtrsAOMVIY4nLVFcTjkx05UDiigswDGjZB+EZh9jzCNBqnqgqiOcSzV5SApsclfYsnfIKoFmgNzL+y6DV8qaQgXoPxfY9gkS39zWnIJviUiXDsH2FW8FBFQRSh/7wHVSFrZ88kCKe4dhA62fKckwouwZ+Rjxgap3O2o1yCL5n4QtYA0bxiXkHB2GYeDWc4OwoeQRTeICg81I9WT3CZiS5sZQUJMi50Mwn2ov/9SJBx9YlJMPNFZ2AvBtk14Y/KCWbmuqNAwWw7zDjrZRLMzAUD23jUETLOCZkEMyPRRaBgdjAb1hA74RcMDA4tCFRaMHAugJasKi0YuHaLVgQqLTgJFJxKEfwRKHiQIhg6klnVXbBXd8F+3QVf6y74IUYw8FfIEWyF/YpT3QXf6y64VsEgogT/n4RAghDEDgmynbGIEtx0brSzgt/DTgDD7B6ixf7fz2MNIwTx9wmpeKTgsDy8aLoqqIIqqIIqqIIqqIIqqIIqqIIqqIIqqIKJBbsvL+UfEis4eb8uA+4/vE6gixEc7W9LnGfHo0c9ShFExyTB45y2EMF3I0x8jEC+oL23ruAsukBB58aSOgm6TnVap0UFC7q3mEN5QSmC7s2fxLdQgqB7AzYxZYkEQfdBHbRRX7ZgTmk7aYJUwb279Km8pBBB99l/Yj8hQdB9mtCVl0Wo4FPd+0FnM0psRGUIunZxw6xGgo6uHgbEojIErYcU7byrg6CRuYPYyUsSxGf/0fblegjiMK08QOIFzUOTrboJfpqNTN0EzRNpQF78FSJonslFiRPqIGhOKKhLTmIEraLkFLIyBK0oI4r6chdBe8JEbkZlCNqnXq0siLIF7Tk9cT4vRdAxXXKkTxUsaP8R4pqaFEE7SCOPXj4BCb4w9xB0pcmjNqMiatCVvoO6JiOiBl3JU4BwF8WFR9Yg+Vta8xv6C44UzU6ik8jFCFLfI1eGJnRktwC/NJcOogQLMtdnccVoZE3NJTAzxn+iBJ/KA2zmZkmjCUafBY0SLL6T5y/mesWtMK36lw8VpL1H7kogVn90hrUoQdoR0JP7zC5ts9Njz/DSHrND3wlpPhHdxkQK0l7CCKJfwUjBY2rB+PP0cYkCqCPKUBgSjUYK0r9FCaL8uoPEgh5r8CFEj9MYBMkruCH8erwgeTwaQmCeS2ZB8pfR/vjlk08kSJ65+sNzDVN8PhkYl8cagnv/kDcMgtvyYAOIXqu4wZARKM1ryJUOniPlEXX5wQeGLv4PLDmdqBvP6PBdOcGUtIq+L4TCjKWD+ANXrvs29fswAhPOO0/ZbgxhG7SNea8DZbx3iXqzcDE95itrWS932xOXq3OZ9dlv5OW9ng9gPfU+xfqX58E2wYXDrIKNqyMcT6/9nhf9t/dvjjR4DrgFL4Sl/ksQyIUUgpVCBaWjgtJRQemooHRUUDoqKB0VlI4KSkcFpaOC0lFB6aigdFRQOiooHRWUjgpKRwWlo4LSUUHh/AYZGVK3freALAAAAABJRU5ErkJggg=="} style={{backgroundColor: "#f8f8f8", width: "100%", borderRadius: "5%"}}></img>
+              <p style={{width: "100%", display: "flex", 
+            justifyContent: "right", alignContent: "center", paddingTop: "10px", paddingRight: "10px", fontFamily: "InterBold"}}>
+              {ind}
+            </p>
+            </div>
+            
+          ))}
+          </div>
+      </div>
+
+    )
+    
   }
 
-  const updateClickList = (id) => {
-    const nftList = [...chosenNfts];
-    if (nftList.includes(id)) {
-      nftList.splice(chosenNfts.indexOf(id), 1);
-    } else {
-      nftList.push(id);
-    }
-    setChosenNfts(nftList);
-    console.log(id);
-  }
+  const MarketplacePage = () => {
+    return (
+      <div style={{display: "flex", width: "100%", justifyContent: "center", alignContent: "center", paddingTop: "10px", flexDirection: "column"}}>
 
-  const selectAllClickList = () => {
-    const nftList = [];
-    userFlovatars.forEach(element => {
-      nftList.push(element.id);
-    });
-    setChosenNfts(nftList);
-  }
+          <div style={{display: "flex", justifyContent: "left", alignItems: "center", paddingBottom: "30px"}}>
+            <p style={{fontSize: 30, fontFamily: "InterBold", paddingRight: "10px", margin: "0px"}}>Marketplace</p>
+          </div>
+        <div style={{gap: "20px", width: "100%", placeItems: "center", display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr"}}>
+          {createdMarket.map((el, ind) => (
+            <div key={ind} style={{backgroundColor: "#ffffff", padding: "10px", width: "100%", display: "flex", borderRadius: "5%",
+              justifyContent: "center", alignContent: "center", flexDirection: "column"}} className={styles.nftBlock}>
+              <img src={"data:image/png;base64,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"} style={{backgroundColor: "#f8f8f8", width: "100%", borderRadius: "5%"}}></img>
+              <p style={{width: "100%", display: "flex", 
+            justifyContent: "right", alignContent: "center", paddingTop: "10px", paddingRight: "10px", fontFamily: "InterBold"}}>
+              ID: {el.id}, Price: {el.price}
+            </p>
+            </div>
+            
+          ))}
+          </div>
+      </div>
 
-  const deselectAllClickList = () => {
-    setChosenNfts([]);
+    )
+    
   }
 
   return (
@@ -1284,7 +528,7 @@ export default function Home() {
         <div>
           <p style={{fontSize: 30, fontFamily: "InterBold", margin: "0px"}}>Storm NFT Pack Creator</p>
         </div>
-        <div style={{width: "20%"}}>
+        <div style={{width: "40%"}}>
           {user.loggedIn
             ? <AuthedState />
             : <UnauthenticatedState />
@@ -1293,10 +537,20 @@ export default function Home() {
       </div>
       <div style={{display: "flex", width: "100%", justifyContent: "center", alignContent: "center", padding: "50px", flexDirection: "column"}}>
 
-        <div style={{display: "flex", width: "100%"}}>
-          <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>My Packs</div>
+        <div style={{display: "grid", width: "25%", gridTemplateColumns: "1fr 1fr 1fr", gap:"10px"}}>
+          <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
+            setCurrentPage(0);
+          }}>My NFTs</div>
+          <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
+            setCurrentPage(1);
+          }}>My Packs</div>
+          <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
+            setCurrentPage(2);
+          }}>Marketplace</div>
         </div>
-        {(user.loggedIn && !packsPage) && <FlovatarList/>}
+        {(user.loggedIn && currentPage == 0) && <FlovatarList/>}
+        {(user.loggedIn && currentPage == 1) && <PacksPage/>}
+        {(user.loggedIn && currentPage == 2) && <MarketplacePage/>}
       </div>
     </div>
   )
