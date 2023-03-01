@@ -1,6 +1,5 @@
 import NonFungibleToken from 0x631e88ae7f1d7c20
-
-import ExampleNFT from 0x5494f9859870cf29
+import ExampleNFT from 0x9edbe746c3cb021f
 import MetadataViews from 0x631e88ae7f1d7c20
 import FungibleToken from 0x9a0766d93b6608b7
 
@@ -20,7 +19,7 @@ transaction(
     /// local variable for storing the minter reference
     let minter: &ExampleNFT.NFTMinter
 
-    /// Reference to the receiver''s collection
+    /// Reference to the receiver's collection
     let recipientCollectionRef: &{NonFungibleToken.CollectionPublic}
 
     /// Previous NFT ID before the transaction executes
@@ -33,7 +32,7 @@ transaction(
         self.minter = signer.borrow<&ExampleNFT.NFTMinter>(from: ExampleNFT.MinterStoragePath)
             ?? panic("Account does not store an object at the specified path")
 
-        // Borrow the recipient''s public NFT collection reference
+        // Borrow the recipient's public NFT collection reference
         self.recipientCollectionRef = getAccount(recipient)
             .getCapability(ExampleNFT.CollectionPublicPath)
             .borrow<&{NonFungibleToken.CollectionPublic}>()
@@ -46,11 +45,9 @@ transaction(
 
     execute {
 
-
         // Create the royalty details
         var count = 0
         var royalties: [MetadataViews.Royalty] = []
-
         while royaltyBeneficiaries.length > count {
             let beneficiary = royaltyBeneficiaries[count]
             let beneficiaryCapability = getAccount(beneficiary)
@@ -71,8 +68,7 @@ transaction(
 
 
 
-
-        // Mint the NFT and deposit it to the recipient''s collection
+        // Mint the NFT and deposit it to the recipient's collection
         self.minter.mintNFT(
             recipient: self.recipientCollectionRef,
             name: name,
