@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@next/font": "13.1.6",
+    "@onflow/fcl": "1.0.0",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "@onflow/fcl": "1.0.0"
+    "styled": "^1.0.0"
   }
 }

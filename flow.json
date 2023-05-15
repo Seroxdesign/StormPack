@@ -6,9 +6,25 @@
 		"testnet": "access.devnet.nodes.onflow.org:9000"
 	},
 	"accounts": {
+		"admin": {
+			"address": "e9727b26ed885be8",
+			"key": "e0eb52764cfba33ff8a9520ae8010af03155641c5ba7f77f03e8a82bf8abab60"
+		},
+		"admin1": {
+			"address": "e9727b26ed885be8",
+			"key": "c3ad2f70e31da9313f6345a438f38a652f803596b48b67317a0806ee3dfb9dbc"
+		},
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "d6d2701874b7f4c837b791f046684b25056354d100c7fe31323392de41e51243"
+		},
+		"fuck": {
+			"address": "e9727b26ed885be8",
+			"key": {
+				"type": "hex",
+				"index": 1,
+				"privateKey": "c3ad2f70e31da9313f6345a438f38a652f803596b48b67317a0806ee3dfb9dbc"
+			}
 		}
 	}
 }

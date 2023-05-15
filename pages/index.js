@@ -3,153 +3,26 @@ import "../flow/config";
 import { useState, useEffect } from "react";
 import * as fcl from "@onflow/fcl";
 import styles from "../styles/Home.module.css";
+import MintComponent from '@/components/MintNfT';
+import ShowNfts from '@/components/ShowNft';
 
 export default function Home() {
-
+  const [nft, setNFT] = useState()
   const [user, setUser] = useState({loggedIn: null});
   const [currentPage, setCurrentPage] = useState(0);
   const [nftsPerPack, setNftsPerPack] = useState(0);
-  const [userNfts, setUserNfts] = useState([]);  const [chosenNfts, setChosenNfts] = useState([]);
+  const [userNfts, setUserNfts] = useState([]); 
+  const [chosenNfts, setChosenNfts] = useState([]);
   const [createdPacks, setCreatedPacks] = useState([]);
   const [createdMarket, setCreatedMarket] = useState([]);
   const [priceToSell, setPriceToSell] = useState(0);
   const [selectedPack, setSelectedPack] = useState();
-
+  console.log(user)
   useEffect(() => fcl.currentUser.subscribe(setUser), [])
 
-  const checkNFTs = async () => {
-    const transactionId = await fcl.query({
-      cadence: `
-      import NonFungibleToken from 0x631e88ae7f1d7c20
-      import ExampleNFT from 0x9edbe746c3cb021f
-      import MetadataViews from 0x631e88ae7f1d7c20
-
-      pub struct NFTView {
-        pub let id: UInt64
-        pub let uuid: UInt64
-        pub let name: String
-        pub let description: String
-        pub let thumbnail: String
-        pub let royalties: [MetadataViews.Royalty]
-        pub let externalURL: String
-        pub let collectionPublicPath: PublicPath
-        pub let collectionStoragePath: StoragePath
-        pub let collectionProviderPath: PrivatePath
-        pub let collectionPublic: String
-        pub let collectionPublicLinkedType: String
-        pub let collectionProviderLinkedType: String
-        pub let collectionName: String
-        pub let collectionDescription: String
-        pub let collectionExternalURL: String
-        pub let collectionSquareImage: String
-        pub let collectionBannerImage: String
-        pub let collectionSocials: {String: String}
-        pub let traits: MetadataViews.Traits
-
-        init(
-            id: UInt64,
-            uuid: UInt64,
-            name: String,
-            description: String,
-            thumbnail: String,
-            royalties: [MetadataViews.Royalty],
-            externalURL: String,
-            collectionPublicPath: PublicPath,
-            collectionStoragePath: StoragePath,
-            collectionProviderPath: PrivatePath,
-            collectionPublic: String,
-            collectionPublicLinkedType: String,
-            collectionProviderLinkedType: String,
-            collectionName: String,
-            collectionDescription: String,
-            collectionExternalURL: String,
-            collectionSquareImage: String,
-            collectionBannerImage: String,
-            collectionSocials: {String: String},
-            traits: MetadataViews.Traits
-        ) {
-            self.id = id
-            self.uuid = uuid
-            self.name = name
-            self.description = description
-            self.thumbnail = thumbnail
-            self.royalties = royalties
-            self.externalURL = externalURL
-            self.collectionPublicPath = collectionPublicPath
-            self.collectionStoragePath = collectionStoragePath
-            self.collectionProviderPath = collectionProviderPath
-            self.collectionPublic = collectionPublic
-            self.collectionPublicLinkedType = collectionPublicLinkedType
-            self.collectionProviderLinkedType = collectionProviderLinkedType
-            self.collectionName = collectionName
-            self.collectionDescription = collectionDescription
-            self.collectionExternalURL = collectionExternalURL
-            self.collectionSquareImage = collectionSquareImage
-            self.collectionBannerImage = collectionBannerImage
-            self.collectionSocials = collectionSocials
-            self.traits = traits
-        }
-    }
-
-      pub fun main(address: Address): [NFTView] {
-          let account = getAccount(address)
-
-          let collectionRef = account
-              .getCapability(ExampleNFT.CollectionPublicPath)
-              .borrow<&{NonFungibleToken.CollectionPublic}>()
-              ?? panic("Could not borrow capability from public collection")
-          
-          let x : [NFTView] = []
-
-          for element in collectionRef.getIDs() {
-            let collectionLoop = account
-                .getCapability(ExampleNFT.CollectionPublicPath)
-                .borrow<&{MetadataViews.ResolverCollection}>()
-                ?? panic("Could not borrow a reference to the collection")
-  
-            let viewResolver = collectionLoop.borrowViewResolver(id: element)!
-  
-            let nftView = MetadataViews.getNFTView(id: element, viewResolver : viewResolver)
-  
-            let collectionSocials: {String: String} = {}
-            for key in nftView.collectionDisplay!.socials.keys {
-                collectionSocials[key] = nftView.collectionDisplay!.socials[key]!.url
-            }
-
-            x.append(NFTView(
-                id: nftView.id,
-                uuid: nftView.uuid,
-                name: nftView.display!.name,
-                description: nftView.display!.description,
-                thumbnail: nftView.display!.thumbnail.uri(),
-                royalties: nftView.royalties!.getRoyalties(),
-                externalURL: nftView.externalURL!.url,
-                collectionPublicPath: nftView.collectionData!.publicPath,
-                collectionStoragePath: nftView.collectionData!.storagePath,
-                collectionProviderPath: nftView.collectionData!.providerPath,
-                collectionPublic: nftView.collectionData!.publicCollection.identifier,
-                collectionPublicLinkedType: nftView.collectionData!.publicLinkedType.identifier,
-                collectionProviderLinkedType: nftView.collectionData!.providerLinkedType.identifier,
-                collectionName: nftView.collectionDisplay!.name,
-                collectionDescription: nftView.collectionDisplay!.description,
-                collectionExternalURL: nftView.collectionDisplay!.externalURL.url,
-                collectionSquareImage: nftView.collectionDisplay!.squareImage.file.uri(),
-                collectionBannerImage: nftView.collectionDisplay!.bannerImage.file.uri(),
-                collectionSocials: collectionSocials,
-                traits: nftView.traits!,
-            ))
-          }
-          return x
-      }
-      `,
-      args: (arg, t) => [arg(user.addr, t.Address)]
-    })
-
-    setUserNfts(transactionId);
-    setChosenNfts([]);
-
+  const deselectAllPacks = () => {
+    setSelectedPack(null);
   }
-
   const updateClickList = (id) => {
     const userNftsNew = [...chosenNfts];
     if (userNftsNew.includes(id)) {
@@ -173,72 +46,40 @@ export default function Home() {
     setChosenNfts([]);
   }
 
-  const setupAccount = async () => {
-    const accSetTransId = await fcl.mutate({
+  //read from blockchain
+  const checkNFTs = async () => {
+    const transactionId = await fcl.query({
       cadence: `
-
-      import NonFungibleToken from 0x631e88ae7f1d7c20
-      import ExampleNFT from 0x9edbe746c3cb021f
+      import FlowTutorialMint from 0x8e0dac5df6e8489e
       import MetadataViews from 0x631e88ae7f1d7c20
-
-      transaction {
-
-          prepare(signer: AuthAccount) {
-              // Return early if the account already has a collection
-              if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
-                  return
-              }
       
-              // Create a new empty collection
-              let collection <- ExampleNFT.createEmptyCollection()
+      pub fun main(address: Address): [FlowTutorialMint.FlowTutorialMintData] {
+        let collection = getAccount(address).getCapability(FlowTutorialMint.CollectionPublicPath)
+                          .borrow<&{MetadataViews.ResolverCollection}>()
+                          ?? panic("Could not borrow a reference to the nft collection")
       
-              // save it to the account
-              signer.save(<-collection, to: ExampleNFT.CollectionStoragePath)
+        let ids = collection.getIDs()
       
-              // create a public capability for the collection
-              signer.link<&{NonFungibleToken.CollectionPublic, ExampleNFT.ExampleNFTCollectionPublic, MetadataViews.ResolverCollection}>(
-                  ExampleNFT.CollectionPublicPath,
-                  target: ExampleNFT.CollectionStoragePath
-              )
-            
-          }
-      }`,
-      payer: fcl.currentUser,
-      proposer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 50,
-
-    })
-
-    const accTrans = await fcl.tx(accSetTransId).onceSealed();
-    console.log(accTrans);
-  }
-
-  const setupPacks = async () => {
-    const transId = await fcl.mutate({
-      cadence: `
-      import StormPack from 0x9edbe746c3cb021f
-      import FungibleToken from 0x9a0766d93b6608b7
-      import FlowToken from 0x7e60df042a9c0868
-
-      transaction() {
-          prepare(account: AuthAccount) {
-            if(account.getCapability<&{StormPack.CollectionPublic}>(StormPack.CollectionPublicPath) == nil) {
-              account.save<@StormPack.Collection>(<- StormPack.createEmptyCollection(), to: /storage/StormPackCollection)
-              account.link<&{StormPack.CollectionPublic}>(StormPack.CollectionPublicPath, target: /storage/StormPackCollection)
-            }
-          }
-
+        let answer: [FlowTutorialMint.FlowTutorialMintData] = []
+      
+        for id in ids {
+          
+          let nft = collection.borrowViewResolver(id: id)
+          let view = nft.resolveView(Type<FlowTutorialMint.FlowTutorialMintData>())!
+      
+          let display = view as! FlowTutorialMint.FlowTutorialMintData
+          answer.append(display)
+        }
+          
+        return answer
       }
       `,
-      payer: fcl.currentUser,
-      proposer: fcl.currentUser,
-      authorizations: [fcl.currentUser],
-      limit: 50,
+      args: (arg, t) => [arg(user.addr, t.Address)]
     })
+    console.log(transactionId, 'test tx 1');
+    setUserNfts(transactionId);
+    setChosenNfts([]);
 
-    const accTrans = await fcl.tx(transId).onceSealed();
-    console.log(accTrans);
   }
 
   const createPack = async () => {
@@ -246,22 +87,22 @@ export default function Home() {
       cadence: `
 
       import NonFungibleToken from 0x631e88ae7f1d7c20
-      import ExampleNFT from 0x9edbe746c3cb021f
+      import FlowTutorialMint from 0x8e0dac5df6e8489e
       import MetadataViews from 0x631e88ae7f1d7c20
 
       transaction {
 
           prepare(signer: AuthAccount) {
               // Return early if the account already has a collection
-              if signer.borrow<&ExampleNFT.Collection>(from: ExampleNFT.CollectionStoragePath) != nil {
+              if signer.borrow<&FlowTutorialMint.Collection>(from: FlowTutorialMint.CollectionStoragePath) != nil {
                   return
               }
       
               // Create a new empty collection
-              let collection <- ExampleNFT.createEmptyCollection()
+              let collection <- FlowTutorialMint.createEmptyCollection()
       
               // save it to the account
-              signer.save(<-collection, to: ExampleNFT.CollectionStoragePath)
+              signer.save(<-collection, to: FlowTutorialMint.CollectionStoragePath)
             
           }
       }`,
@@ -273,7 +114,7 @@ export default function Home() {
     })
 
     const accTrans = await fcl.tx(accSetTransId).onceSealed();
-    console.log(accTrans);
+    console.log(accTrans, 'test 1');
 
     // let nftsPerPackActual = Math.floor(chosenNfts.length/nftsPerPack);
     
@@ -291,10 +132,10 @@ export default function Home() {
         id: 3
       }]
     ])
+    console.log(accTrans, 'test 1');
+
     setUserNfts([]);
     setChosenNfts([]);
-
-
   }
 
   const putOnMarket = async () => {
@@ -385,20 +226,13 @@ export default function Home() {
     setPriceToSell(0);
     let netarr = [...createdPacks];
     netarr.splice(selectedPack, 1);
+    console.log(createdPacks, selectedPack, 'stuff');
     setCreatedPacks(netarr);
-  }
-
-  const deselectAllPacks = () => {
-    setSelectedPack(null);
   }
 
   const AuthedState = () => {
     return (
       <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px"}}>
-        {/* <div>Address: {user?.addr ?? "No Address"}</div> */}
-        {/* <div onClick={setupAccount} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Setup Accounts</div>
-        <div onClick={setupPacks} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Setup Packs</div>
-        <div onClick={checkPackNum} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Check Packs</div> */}
         <div onClick={checkNFTs} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Load NFTs</div> {/* NEW */}
         <div onClick={fcl.unauthenticate} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>Log Out</div>
       </div>
@@ -439,7 +273,7 @@ export default function Home() {
               justifyContent: "center", alignContent: "center", flexDirection: "column"}} className={styles.nftBlock} onClick={() => {
                 updateClickList(el.id);
               }}>
-              <img src={"https://flovatar.com/api/image/" + el.id+1} style={{backgroundColor: "#f8f8f8", width: "100%", borderRadius: "5%"}}></img>
+              <img src={el.url} style={{backgroundColor: "#f8f8f8", width: "100%", borderRadius: "5%"}} />
               <p style={{width: "100%", display: "flex", 
             justifyContent: "right", alignContent: "center", paddingTop: "10px", paddingRight: "10px", fontFamily: "InterBold"}}>
               {el.id}
@@ -516,6 +350,14 @@ export default function Home() {
     
   }
 
+  const MintNFTPage = () => {
+    return (
+      <div style={{display: "flex", width: "100%", justifyContent: "center", alignContent: "center", paddingTop: "10px", flexDirection: "column"}}>
+        <MintComponent />
+      </div>
+    )
+  }
+
   return (
     <div style={{backgroundColor: "white", color: "black", width: "100%"}} className={styles.main}>
       <Head>
@@ -537,7 +379,7 @@ export default function Home() {
       </div>
       <div style={{display: "flex", width: "100%", justifyContent: "center", alignContent: "center", padding: "50px", flexDirection: "column"}}>
 
-        <div style={{display: "grid", width: "25%", gridTemplateColumns: "1fr 1fr 1fr", gap:"10px"}}>
+        <div style={{display: "grid", width: "35%", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap:"10px"}}>
           <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
             setCurrentPage(0);
           }}>My NFTs</div>
@@ -547,10 +389,16 @@ export default function Home() {
           <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
             setCurrentPage(2);
           }}>Marketplace</div>
+          <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
+            setCurrentPage(3);
+          }}>
+            Mint NFT
+          </div>
         </div>
         {(user.loggedIn && currentPage == 0) && <FlovatarList/>}
         {(user.loggedIn && currentPage == 1) && <PacksPage/>}
         {(user.loggedIn && currentPage == 2) && <MarketplacePage/>}
+        {(user.loggedIn && currentPage == 3) && <MintNFTPage/>}
       </div>
     </div>
   )
