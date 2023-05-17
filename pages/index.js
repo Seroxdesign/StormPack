@@ -123,6 +123,7 @@ export default function Home() {
   const createPack = async () => {
     let url = ''
     await chosenNfts?.forEach(nft => url = url + nft.url + '~');
+    console.log(url, '12')
     const nfts = chosenNfts
     await mintNFT('pack', url)
     burnMultiple(nfts)
@@ -179,15 +180,15 @@ export default function Home() {
   }
 
   const openPack = async () => {
-    const nftArr = selectedPack.url.split('~')
+    let nftArr = selectedPack.url.split('~')
+    nftArr = nftArr.filter((item, i) => item)
+    
     const mint = async () => {
       mintMultiple(nftArr)
     }
     await burnNFT(+selectedPack.id).then(() => {
       mint()
     })
-   
-
   }
 
   const AuthedState = () => {

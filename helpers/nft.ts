@@ -118,7 +118,10 @@ export const burnMultiple = async (arr: any[]) => {
 }
 
 export const mintMultiple = async (arr) => {
+  let index = 0
   for (const item of arr) {
-    await  mintNFT('item', item)
+    if (!item) return
+    index += 1
+    await mintNFT(`item ${index}`, item)
   }
 }
