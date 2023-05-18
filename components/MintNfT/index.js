@@ -39,9 +39,10 @@ function MintComponent() {
       fcl.tx(res).subscribe((res) => {
         if (res.status === 4 && res.errorMessage === "") {
           window.alert("NFT Minted!")
+          setImgData('')
         }
       });
-
+      
       console.log("txid", res);
     } catch (error) {
       console.log("err", error);
@@ -49,9 +50,9 @@ function MintComponent() {
   }
 
   const uploadImg = (e) => {
-
+    console.log(e.target.files[0])
     const storage = getStorage();
-    const storageRef = ref(storage, 'images/rivers.jpg');
+    const storageRef = ref(storage, `images/${e.target.files[0].name}`);
 
     const uploadTask = uploadBytesResumable(storageRef, Array.from(e.target.files)[0]);
     uploadTask.on('state_changed', 

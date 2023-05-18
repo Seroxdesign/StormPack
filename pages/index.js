@@ -7,7 +7,7 @@ import MintComponent from '@/components/MintNfT';
 import { mintNFT, burnNFT, mintMultiple, burnMultiple } from '@/helpers/nft';
 
 export default function Home() {
-  const [nft, setNFT] = useState()
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({loggedIn: null});
   const [currentPage, setCurrentPage] = useState(0);
   const [nftsPerPack, setNftsPerPack] = useState(0);
@@ -121,14 +121,12 @@ export default function Home() {
   }
 
   const createPack = async () => {
+    setLoading(true)
     let url = ''
     await chosenNfts?.forEach(nft => url = url + nft.url + '~');
-    console.log(url, '12')
     const nfts = chosenNfts
     await mintNFT('pack', url)
-    burnMultiple(nfts)
-
-    // let nftsPerPackActual = Math.floor(chosenNfts.length/nftsPerPack);
+    await burnMultiple(nfts).then(setLoading(false))
   }
 
   const putOnMarket = async () => {
@@ -180,6 +178,7 @@ export default function Home() {
   }
 
   const openPack = async () => {
+    setLoading(true)
     let nftArr = selectedPack.url.split('~')
     nftArr = nftArr.filter((item, i) => item)
     
@@ -187,7 +186,7 @@ export default function Home() {
       mintMultiple(nftArr)
     }
     await burnNFT(+selectedPack.id).then(() => {
-      mint()
+      mint().then(setLoading(false))
     })
   }
 
@@ -217,9 +216,9 @@ export default function Home() {
           <div style={{display: "flex", justifyContent: "left", alignItems: "center"}}>
             <p style={{fontSize: 30, fontFamily: "InterBold", paddingRight: "10px", margin: "0px"}}>My NFTs</p>
             {chosenNfts?.length == 0 ? <p style={{margin: "0px", padding: "0px"}}>(Select NFTs to Create Packs)</p>
-             : <div onClick={() => createPack()} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>
-                 Create Packs ({chosenNfts?.length} Selected,
-              </div>}
+             : <button onClick={() => createPack()} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} disabled={loading} className={styles.hoverCss}>
+                 Create Packs {chosenNfts?.length} Selected
+              </button>}
             
               <input style={{width: "50px", marginLeft: '10px'}} type="number" name="someid" value={nftsPerPack} onChange={e => setNftsPerPack(e.target.value > chosenNfts.length ? chosenNfts.length : e.target.value)
              }/> packs
@@ -242,8 +241,16 @@ export default function Home() {
               {el.id}
             </p>
             </div>
-            
           ))}
+          {
+            !userNfts.length ? 
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '500px' }}>
+              No Nfts in your wallet, please mint to continue
+              <button onClick={() => setCurrentPage(3)} style={{backgroundColor: "white", color: "#1B5BD3", padding: "5px", textAlign: "center"}}>Mint Nfts </button>
+            </div>
+            :
+            ''
+          }
           </div>
         </div>
 
@@ -257,12 +264,12 @@ export default function Home() {
           <div style={{display: "flex", justifyContent: "left", alignItems: "center", paddingBottom: "30px"}}>
             <p style={{fontSize: 30, fontFamily: "InterBold", paddingRight: "10px", margin: "0px"}}>My Packs</p>
             {selectedPack == null ? <p style={{margin: "0px", padding: "0px"}}>(Select a Pack to Sell)</p>
-             : <div onClick={putOnMarket} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center", marginRight: "10px"}} className={styles.hoverCss}>
+             : <button disabled={loading} onClick={putOnMarket} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center", marginRight: "10px"}} className={styles.hoverCss}>
               Put on Market @ Price:
               <input style={{width: "50px"}} type="number" name="someid" value={priceToSell} onChange={e => setPriceToSell(e.target.value)
-             }/></div>}
-             {selectedPack != null && <div onClick={openPack} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center", marginRight: "10px"}} className={styles.hoverCss}>
-              Open Pack</div>}
+             }/></button>}
+             {selectedPack != null && <button onClick={openPack}  disabled={loading} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center", marginRight: "10px"}} className={styles.hoverCss}>
+              Open Pack</button>}
               {selectedPack != null && <div onClick={deselectAllPacks} style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss}>
               Deselect All</div>}
           </div>
@@ -323,6 +330,11 @@ export default function Home() {
 
   return (
     <div style={{backgroundColor: "white", color: "black", width: "100%"}} className={styles.main}>
+      {
+        loading ? <div>
+          Loading...
+        </div> : ''
+      }
       <Head>
         <title>FCL Quickstart with NextJS</title>
         <meta name="description" content="My first web3 app on Flow!" />
