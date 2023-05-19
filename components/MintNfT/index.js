@@ -4,10 +4,11 @@ import {storage} from '../../lib/firebase'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 function MintComponent() {
-  const [nftIMG, setIMG] = useState();
+  const [loading, setLoading] = useState(false);
   const [imgData, setImgData] = useState();
-  console.log(nftIMG);
+
   async function mintNFT(type, url) {
+    setLoading(true)
     try {
       const res = await fcl.mutate({
         cadence: `
@@ -40,17 +41,17 @@ function MintComponent() {
         if (res.status === 4 && res.errorMessage === "") {
           window.alert("NFT Minted!")
           setImgData('')
+          setLoading(false)
         }
       });
-      
-      console.log("txid", res);
     } catch (error) {
       console.log("err", error);
+      setLoading(false)
     }
   }
 
   const uploadImg = (e) => {
-    console.log(e.target.files[0])
+    setLoading(true)
     const storage = getStorage();
     const storageRef = ref(storage, `images/${e.target.files[0].name}`);
 
@@ -72,27 +73,62 @@ function MintComponent() {
       }, 
       (error) => {
         // Handle unsuccessful uploads
+        window.alert('upload failed')
+        setLoading(false)
       }, 
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImgData(downloadURL);
+          setLoading(false)
         });
       })    
   }
 
   return (
   <div style={{ marginTop: '1em' }}>
+     {
+      loading ? <div style={{
+          height: '100vh',
+          width: '100vw',
+          backgroundColor: '#303030',
+          display: 'flex',
+          justifyContent: 'center',
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          zIndex: '2'
+        }}>
+        <h2 style={{color: 'white', marginTop: '40vh'}} > Please hold on while we prepare your NFT... </h2>
+      </div> : ''
+    }
     <h1>Mint your NFT!</h1>
     <main>
-        <div style={{ marginTop: '1em', width: '100%', padding: '1em' }}>
-            <input type="file" accept="image/png, image/jpeg" onChange={e => uploadImg(e)}  style={{ padding: '1em' }}/>
-            <button onClick={() => mintNFT("French Dog", imgData)} style={{ padding: '1em' }}>Mint</button>
-          
+        <div style={{ marginTop: '1em', width: '100%' }}>
+          <input
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={e => uploadImg(e)}
+            style={{ padding: '1em' }}
+          />
+          <button
+            disabled={loading && !imgData}
+            onClick={() => mintNFT("French Dog", imgData)}
+            style={{
+              border: 'none',
+              width: '100px',
+              backgroundColor: loading ? "gray" : "#1B5BD3",
+              color: "white",
+              padding: "5px",
+              textAlign: "center",
+              marginRight: "10px"
+          }}>
+            Mint
+          </button>
         </div>
     </main>
-    <img src={imgData} alt="NFT" />
+    <img src={imgData} alt="NFT" style={{ marginTop: '2em' }} />
   </div>
   )
 }

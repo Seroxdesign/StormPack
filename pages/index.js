@@ -19,6 +19,9 @@ export default function Home() {
   const [selectedPack, setSelectedPack] = useState();
 
   useEffect(() => {
+    if (currentPage === 0) {
+      checkNFTs()
+    }
     if (currentPage === 1) {
       const getNFTs = async() => {
         const transactionId = await fcl.query({
@@ -331,9 +334,19 @@ export default function Home() {
   return (
     <div style={{backgroundColor: "white", color: "black", width: "100%"}} className={styles.main}>
       {
-        loading ? <div>
-          Loading...
-        </div> : ''
+        loading ? <div style={{
+          height: '100vh',
+          width: '100vw',
+          backgroundColor: '#303030',
+          display: 'flex',
+          justifyContent: 'center',
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          zIndex: '2'
+        }}>
+        <h2 style={{color: 'white', marginTop: '40vh'}} > Processing, please hold on while we fulfill your request... </h2>
+      </div> : ''
       }
       <Head>
         <title>FCL Quickstart with NextJS</title>
@@ -354,21 +367,21 @@ export default function Home() {
       </div>
       <div style={{display: "flex", width: "100%", justifyContent: "center", alignContent: "center", padding: "50px", flexDirection: "column"}}>
 
-        <div style={{display: "grid", width: "35%", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap:"10px"}}>
+        <div style={{display: "grid", width: "35%", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap:"10px", marginBottom: '3em'}}>
           <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
             setCurrentPage(0);
           }}>My NFTs</div>
+           <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
+            setCurrentPage(3);
+          }}>
+            Mint NFT
+          </div>
           <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
             setCurrentPage(1);
           }}>My Packs</div>
           <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
             setCurrentPage(2);
           }}>Marketplace</div>
-          <div style={{backgroundColor: "#1B5BD3", color: "white", padding: "5px", textAlign: "center"}} className={styles.hoverCss} onClick={() => {
-            setCurrentPage(3);
-          }}>
-            Mint NFT
-          </div>
         </div>
         {(user.loggedIn && currentPage == 0) && <FlovatarList/>}
         {(user.loggedIn && currentPage == 1) && <PacksPage/>}
