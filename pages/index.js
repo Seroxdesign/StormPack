@@ -19,6 +19,13 @@ export default function Home() {
   const [selectedPack, setSelectedPack] = useState();
 
   useEffect(() => {
+    const check = async () => {
+      await checkNFTs()
+    }
+    check()
+  }, [user])
+
+  useEffect(() => {
     if (currentPage === 0) {
       checkNFTs()
     }
@@ -57,7 +64,7 @@ export default function Home() {
       }
       getNFTs()
     }
-  }, [currentPage])
+  }, [currentPage, user])
 
   useEffect(() => fcl.currentUser.subscribe(setUser), [])
 
@@ -118,7 +125,6 @@ export default function Home() {
       `,
       args: (arg, t) => [arg(user.addr, t.Address)]
     })
-    console.log(transactionId, 'test tx 1');
     setUserNfts(transactionId.filter((item) => item.type !== 'pack'));
     setChosenNfts([]);
   }
