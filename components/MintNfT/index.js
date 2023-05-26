@@ -34,12 +34,12 @@ function MintComponent() {
                 }
             }
             `,
-        args: (arg, t) => [arg(type, t.String), arg(imgData, t.String)],
+        args: (arg, t) => [arg(type, t.String), arg('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fres.cloudinary.com%2Fhxn7xk7oa%2Fimage%2Fupload%2Fv1663099958%2Fimage3_527c674ba6.png&f=1&nofb=1&ipt=51cb346d05b1606ca4c2aa2552a6deb9f3f9aa3c3a2cb4418c42e79a4e7fefea&ipo=images', t.String)],
         limit: 9999,
       });
       fcl.tx(res).subscribe((res) => {
         if (res.status === 4 && res.errorMessage === "") {
-          window.alert("NFT Minted!")
+          window.alert("Flovatar NFT Minted!")
           setImgData('')
           setLoading(false)
         }
@@ -82,6 +82,7 @@ function MintComponent() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImgData(downloadURL);
           setLoading(false)
+          window
         });
       })    
   }
@@ -106,12 +107,12 @@ function MintComponent() {
     <h1>Mint your NFT!</h1>
     <main>
         <div style={{ marginTop: '1em', width: '100%' }}>
-          <input
+ {/*          <input
             type="file"
             accept="image/png, image/jpeg"
             onChange={e => uploadImg(e)}
             style={{ padding: '1em' }}
-          />
+          /> */}
           <button
             disabled={loading && !imgData}
             onClick={() => mintNFT("French Dog", imgData)}
@@ -124,11 +125,11 @@ function MintComponent() {
               textAlign: "center",
               marginRight: "10px"
           }}>
-            Mint
+            Mint Flovatar NFT
           </button>
         </div>
     </main>
-    <img src={imgData} alt="NFT" style={{ marginTop: '2em' }} />
+{/*     <img src={imgData} alt="NFT" style={{ marginTop: '2em' }} /> */}
   </div>
   )
 }
